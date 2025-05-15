@@ -56,8 +56,30 @@ In this exercise you will:
 
 ```bash
 # 1) The exact ssh command you ran
+ssh NguekepMonique@127.0.0.1
+
+
+
 # 2) A detailed, step-by-step explanation of what happened at each stage
 ```
+TCP-Verbindung zu Port 22 auf dem Remote-Host:
+ Eine Verbindung wurde zum Port 22 auf dem Remote-Rechner erstellt.
+
+SSH-Protokoll-Handshake: Schlüsselaustausch und Algorithmusverhandlung
+Es wurde ein sicherer Schlüsselaustausch stattfinden (z. B. mit Diffie-Hellman oder Ed25519).
+
+Authentifizierung: Public-Key oder Passwort
+
+Falls ein öffentlicher Schlüssel hinterlegt ist, wird dieser zur Authentifizierung genutzt.
+
+Falls nicht, wirst du nach dem Passwort gefragt.
+
+Shell-Zuweisung: Deine entfernte Sitzung beginnt
+
+Der Server stellt eine Shell zur Verfügung (z. B. Bash).
+
+ich konnte Befehle wie auf meinem lokalen Rechner ausführen.
+
 
 ---
 
@@ -85,9 +107,32 @@ In this exercise you will:
 
 ```bash
 # 1) The ssh-keygen command you ran
+ssh-keygen -t ed25519 -C "nguekepmonique@gmail.com"
+
 # 2) The file paths of the generated keys
+Your identification has been saved in /root/NguekepMonique/.ssh/id_ed25519
+Your public key has been saved in /root/NguekepMonique/.ssh/id_ed25519.pub
+
 # 3) Your written explanation (3–5 sentences) of the signature process
 ```
+Wie wird der Private Key verwendet?
+ eine Challenge wurde vom Server mit deinem privaten Schlüssel signiert.
+
+ Wie prüft der Server mit dem Public Key die Signatur?
+Der Server kennt den öffentlichen Schlüssel (aus ~/.ssh/authorized_keys).
+
+Er prüft, ob die vom Client gesendete Signatur mit dem Public Key gültig ist.
+
+ Warum ist Ed25519 bevorzugt?
+Schneller als RSA (weniger Rechenaufwand).
+
+Kompaktere Schlüssel (sicherer bei kürzerer Länge).
+
+Sehr sicher: Ed25519 ist gegen viele moderne Angriffe resistent.
+
+Stand der Technik – empfohlen von OpenSSH.
+
+
 
 ---
 
@@ -126,10 +171,25 @@ In this exercise you will:
 
 ```text
 # 1) The full contents of your ~/.ssh/config
+# ~/.ssh/config
+
+Host my-remote
+    HostName 127.0.0.1
+    User NguekepMonique
+    IdentityFile ~/.ssh/id_ed25519
+
+Host backup-server
+    HostName 127.0.0.1
+    User backupuser
+    Port 2222
+    IdentityFile ~/.ssh/id_ed25519_backup
+
 # 2) A short explanation (3–4 sentences) of how the config simplifies connections
 ```
-
 ---
+Die Datei ~/.ssh/config wird von SSH automatisch gelesen, um benutzerdefinierte Verbindungsprofile zu laden. 
+Der Alias (Host) ersetzt einen langen Befehl mit HostName, Benutzername, Port und Schlüsselpfad.
+So lassen sich Verbindungen schneller und einfacher herstellen. 
 
 ### Task 4: SCP File Transfers
 
@@ -166,6 +226,20 @@ In this exercise you will:
 # 2) Any flags or options used
 # 3) A brief explanation (2–3 sentences) of scp’s mechanism
 ```
+1) Local> remote
+   scp ~/Dokumente/testdatei.txt NguekepMonique@127.0.0.1:~/zielordner/
+ remote> local
+   scp NguekepMonique@127.0.0.1:~/logs/system.log ~/Downloads/
+remote> remote
+   scp -r NguekepMonique@127.0.0.1:/root/NguekepMonique/ordner1 NguekepMonique@127.0.0.1:/root/NguekepMonique/ordner2
+
+2) -r
+3)scp benutzt SSH, um sicher eine Verbindung zum entfernten Rechner aufzubauen.
+
+Dabei werden die Daten verschlüsselt übertragen, so dass niemand sie unterwegs sehen oder verändern kann.
+
+Für jede Dateiübertragung öffnet scp eine neue SSH-Verbindung, kopiert die Dateien und schließt die Verbindung danach wieder.
+
 
 ---
 
@@ -212,7 +286,7 @@ In this exercise you will:
 # 2) The lines you added to ~/.bashrc or ~/.profile
 # 3) Your explanation (3–5 sentences) of shell init files and sourcing vs. executing
 ```
-
 ---
 
 **Remember:** Stop working after **90 minutes** and record where you stopped.
+ich habe nicht task 5 gearbeitet weil ich viel zeit genommen habe den Remote server zu erstellen.
