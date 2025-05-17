@@ -56,7 +56,7 @@ In this exercise you will:
 
 ```bash
 # 1) The exact ssh command you ran
-ssh NguekepMonique@127.0.0.1
+ssh -v NguekepMonique@127.0.0.1
 # 2) A detailed, step-by-step explanation of what happened at each stage
 TCP-Verbindung zu Port 22 auf dem Remote-Host:
  Eine Verbindung wurde zum Port 22 auf dem Remote-Rechner erstellt.
@@ -103,16 +103,19 @@ ich konnte Befehle wie auf meinem lokalen Rechner ausführen.
 
 ```bash
 # 1) The ssh-keygen command you ran
-ssh-keygen -t ed25519 -C "nguekepmonique@gmail.com"
+ssh-keygen -t ed25519 -C "chikmo16@stud.thga.de"
 # 2) The file paths of the generated keys
-Your identification has been saved in /root/NguekepMonique/.ssh/id_ed25519
-Your public key has been saved in /root/NguekepMonique/.ssh/id_ed25519.pub
+Your identification has been saved in /root/.ssh/id_ed25519
+Your public key has been saved in /root/.ssh/id_ed25519.pub
 # 3) Your written explanation (3–5 sentences) of the signature process
 Wie wird der Private Key verwendet?
  eine Challenge wurde vom Server mit deinem privaten Schlüssel signiert.
 
  Wie prüft der Server mit dem Public Key die Signatur?
 Der Server kennt den öffentlichen Schlüssel (aus ~/.ssh/authorized_keys).
+Das System prüft, ob der SSH-Schlüssel schon auf dem Zielsystem vorhanden ist.
+Da noch ein Schlüssel fehlt, wirst eventuell einmal nach dem Passwort gefragt,
+um diesen Schlüssel zu installieren und künftig ohne Passwort zugreifen zu können.
 
 Er prüft, ob die vom Client gesendete Signatur mit dem Public Key gültig ist.
 
@@ -170,7 +173,7 @@ Host my-remote
     User NguekepMonique
     IdentityFile ~/.ssh/id_ed25519
 Host backup-server
-    HostName 127.0.0.1
+    HostName 128.140.85.215
     User backupuser
     Port 2222
     IdentityFile ~/.ssh/id_ed25519_backup
@@ -219,7 +222,7 @@ So lassen sich Verbindungen schneller und einfacher herstellen.
 # 3) A brief explanation (2–3 sentences) of scp’s mechanism
 ```
 1) Local> remote
-   scp ~/Dokumente/testdatei.txt NguekepMonique@127.0.0.1:~/zielordner/
+   scp ~/Dokumente/testdatei.txt NguekepMonique@127.0.0.1:~/downloads/
  remote> local
    scp NguekepMonique@127.0.0.1:~/logs/system.log ~/Downloads/
 remote> remote
